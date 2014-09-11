@@ -3,5 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "MIT"
             :url "http://opensource.org/licenses/MIT"}
+
+  :main clj-druid.validations
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [prismatic/schema "0.2.6"]])
