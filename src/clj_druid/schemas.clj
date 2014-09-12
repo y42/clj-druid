@@ -15,7 +15,6 @@
   "Druid limitSpec option schema"
   {:type (s/enum :default) :limit Long :columns [String]})
 
-(declare filterSchema)
 
 (s/defschema filterSchema
   "Druid filter field option schema"
@@ -34,12 +33,13 @@
 
 (s/defschema postAggregationSchema
   "Druid filter field option schema"
-  {:type (s/enum :arithmetic :fieldAccess :constant)
+  {:type (s/enum :arithmetic :fieldAccess :constant :javascript)
    :name String
    (s/optional-key :fields) [(s/recursive #'postAggregationSchema)]
    (s/optional-key :fieldName) String
    (s/optional-key :value) String
-   (s/optional-key :fn) String})
+   (s/optional-key :fn) String
+   (s/optional-key :function) String})
 
 (s/defschema intervalSchema
   "Druid interval schema"
@@ -69,21 +69,92 @@
           :topN))
 
 
-(s/defschema groupBy
-  "Main  druid query schema"
-  {:queryType (s/enum :groupBy
-                      :search
-                      :segmentMetadata
-                      :timeBoundary
-                      :timeseries
-                      :topN)
+(s/defschema SearchQuery
+  "Druid queryType option query schema"
+  {:type (s/enum :insensitive_contains :fragment)
+   (s/optional-key :value) (s/either String Long)
+   (s/optional-key :values) [(s/either String Long)]})
 
-  :dataSource String
-  :dimensions [String]
-  :limitSpec limitSpec
-  :having havingSchema
-  :granularity granularity
-  :filter filterSchema
-  :aggregations [aggregationSchema]
-  :postAggregations [postAggregationSchema]
-  :intervals intervalSchema})
+(s/defschema SearchSort
+  "Druid queryType search sort schema"
+  {:type (s/enum :lexicographic :strlen)})
+
+
+(s/defschema SegmentMetadataToInclude
+  "Druid SegmentMetadata toInclude option schema"
+  {:type (s/enum :all :none :list)
+   :columns [String]})
+
+
+(s/defschema groupBy
+  "GroupBy query schema"
+  {:queryType (s/enum :groupBy)
+   :dataSource String
+   :dimensions [String]
+   :granularity granularity
+   :aggregations [aggregationSchema]
+   :intervals intervalSchema
+   (s/optional-key :postAggregations) [postAggregationSchema]
+   (s/optional-key :limitSpec) limitSpec
+   (s/optional-key :having) havingSchema
+   (s/optional-key :filter) filterSchema})
+
+
+(s/defschema search
+  "Search query schema"
+  {:queryType (s/enum :search)
+   :dataSource String
+   :query SearchQuery
+   :sort SearchSort
+   :granularity granularity
+   :intervals intervalSchema
+   (s/optional-key :searchDimensions) [String]
+   (s/optional-key :filter) filterSchema})
+
+
+(s/defschema segmentMetadata
+  "Segment Metadata query schema"
+  {:queryType (s/enum :segmentMetadata)
+   :dataSource String
+   :intervals intervalSchema
+   (s/optional-key :toInclude) SegmentMetadataToInclude
+   (s/optional-key :merge) Boolean})
+
+
+(s/defschema topNMetricSpec
+  "topN metric option schema"
+  (s/either {:type (s/enum :numeric :lexicographic :alphaNumeric :inverted)
+             (s/optional-key :metric) String
+             (s/optional-key :previousStop) String} String))
+
+(s/defschema timeBoundary
+  "Segment Metadata query schema"
+  {:queryType (s/enum :timeBoundary)
+   :dataSource String
+   (s/optional-key :toInclude) SegmentMetadataToInclude
+   (s/optional-key :bound) (s/enum :minTime :maxTime)})
+
+
+(s/defschema timeseries
+  "timeseries query schema"
+  {:queryType (s/enum :timeseries)
+   :dataSource String
+   :granularity granularity
+   :aggregations [aggregationSchema]
+   :intervals intervalSchema
+   (s/optional-key :postAggregations) [postAggregationSchema]
+   (s/optional-key :filter) filterSchema})
+
+
+(s/defschema topN
+  "topN query schema"
+  {:queryType (s/enum :topN)
+   :dataSource String
+   :granularity granularity
+   :dimension String
+   :metric topNMetricSpec
+   :threshold Long
+   :aggregations [aggregationSchema]
+   :intervals intervalSchema
+   (s/optional-key :postAggregations) [postAggregationSchema]
+   (s/optional-key :filter) filterSchema})
