@@ -6,4 +6,6 @@
 
   :main clj-druid.validations
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [prismatic/schema "0.2.6"]])
+                 [prismatic/schema "0.2.6"]
+                 [org.clojure/tools.logging "0.3.0"]
+                 [zookeeper-clj "0.9.1"]])
