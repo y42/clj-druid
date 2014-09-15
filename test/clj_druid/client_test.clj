@@ -4,5 +4,7 @@
 
 
 (deftest test-connect
-  (println (client {:zk-host "127.0.0.1"})))
+  (client {:zk-host "192.168.59.103:2181"
+           :discovery-path "/discovery"
+           :node-type "broker"}))
 
