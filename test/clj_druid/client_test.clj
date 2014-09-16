@@ -3,8 +3,8 @@
             [clj-druid.client :refer :all]))
 
 
-(deftest test-connect
-  (client {:zk-host "192.168.59.103:2181"
-           :discovery-path "/discovery"
-           :node-type "broker"}))
+(deftest test-connect-zookeeper
+  (client {:zk {:host "192.168.59.103:2181"
+                :discovery-path "/discovery"
+                :node-type "broker"}}))
 

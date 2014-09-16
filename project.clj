@@ -6,6 +6,8 @@
 
   :main clj-druid.validations
   :dependencies [[org.clojure/clojure "1.6.0"]
+                 [swiss-arrows "1.0.0"]
+                 [prismatic/plumbing "0.3.3"]
                  [prismatic/schema "0.2.6"]
                  [org.clojure/tools.logging "0.3.0"]
                  [org.clojure/data.json "0.2.5"]
