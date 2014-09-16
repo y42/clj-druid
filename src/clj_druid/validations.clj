@@ -1,6 +1,7 @@
 (ns clj-druid.validations
   (:require [clj-druid.schemas :as sch]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [schema.coerce :as c]))
 
 
 
@@ -42,3 +43,9 @@
   [query]
 
   (s/validate sch/topN query))
+
+
+(defn validate
+  [query query-type]
+
+  (s/validate (query-type sch/queries) query))

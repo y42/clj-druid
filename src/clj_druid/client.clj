@@ -6,6 +6,7 @@
             [clj-druid.schemas :as sch]
             [clj-druid.validations :as v]
             [swiss.arrows :refer :all]
+            [org.httpkit.client :as http]
             [clojure.tools.logging :as log]))
 
 (def nodes-list
@@ -44,14 +45,14 @@
   [zk-client path]
 
   (-<>> path
-      (zk/children zk-client <>
-                   :watch? true
-                   :watcher (fn [e] (zk-watch-node-list zk-client path)))
+        (zk/children zk-client <>
+                     :watch? true
+                     :watcher (fn [e] (zk-watch-node-list zk-client path)))
 
-      (map #(data/to-string (:data (zk/data zk-client (str path "/" %)))))
-      (map #(json/read-str %))
-      (map #(make-host-http-str %))
-      (reset-node-list)))
+        (map #(data/to-string (:data (zk/data zk-client (str path "/" %)))))
+        (map #(json/read-str %))
+        (map #(make-host-http-str %))
+        (reset-node-list)))
 
 
 (defn from-zookeeper
@@ -72,12 +73,42 @@
 
   (reset-node-list (:hosts config)))
 
-(defnk client
+
+(defn randomized
+  "Take a random host"
+  []
+
+  (if (empty? @nodes-list)
+    (throw (Exception. "No nodes available")))
+
+  (rand-nth @nodes-list))
+
+(defn fixed
+  "Always take first host"
+  []
+  (first @nodes-list))
+
+
+(defnk connect
   "Create a druid client from zk or
   a user defined host"
   [{zk {}} {hosts []}]
 
-  (or (some-> zk
-          (from-zookeeper))))
+  (or (if (not (empty? zk))
+          (from-zookeeper zk))
+
+      (if (not (empty? hosts))
+          (from-user hosts))))
+
+
+(defn query
+  "Issue a druid query"
+  [balance-strategy query-type druid-query]
+
+  (println @(-<> (into druid-query {:queryType query-type})
+       (v/validate query-type)
+       (json/write-str <>)
+       {:body <> :as :text}
+       (http/post (balance-strategy) <>))))
 
 

@@ -79,6 +79,11 @@
   "Druid queryType search sort schema"
   {:type (s/enum :lexicographic :strlen)})
 
+(s/defschema topNMetricSpec
+  "topN metric option schema"
+  (s/either {:type (s/enum :numeric :lexicographic :alphaNumeric :inverted)
+             (s/optional-key :metric) String
+             (s/optional-key :previousStop) String} String))
 
 (s/defschema SegmentMetadataToInclude
   "Druid SegmentMetadata toInclude option schema"
@@ -121,11 +126,6 @@
    (s/optional-key :merge) Boolean})
 
 
-(s/defschema topNMetricSpec
-  "topN metric option schema"
-  (s/either {:type (s/enum :numeric :lexicographic :alphaNumeric :inverted)
-             (s/optional-key :metric) String
-             (s/optional-key :previousStop) String} String))
 
 (s/defschema timeBoundary
   "Segment Metadata query schema"
@@ -158,3 +158,11 @@
    :intervals intervalSchema
    (s/optional-key :postAggregations) [postAggregationSchema]
    (s/optional-key :filter) filterSchema})
+
+
+(def queries {:groupBy groupBy
+              :search search
+              :segmentMetadata segmentMetadata
+              :timeBoundary timeBoundary
+              :timeseries timeseries
+              :topN topN})
