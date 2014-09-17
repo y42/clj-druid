@@ -1,10 +1,9 @@
 (defproject clj-druid "0.1.0-SNAPSHOT"
   :description "Clojure library for Druid.io"
-  :url "http://example.com/FIXME"
+  :url "https://github.com/y42/clj-druid"
   :license {:name "MIT"
             :url "http://opensource.org/licenses/MIT"}
 
-  :main clj-druid.validations
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [swiss-arrows "1.0.0"]
                  [http-kit "2.1.16"]
