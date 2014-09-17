@@ -6,6 +6,7 @@
   (s/enum :all
           :none
           :minute
+          :second
           :fifteen_minute
           :thirty_minute
           :hour
