@@ -14,10 +14,16 @@
   (connect {:hosts ["http://localhost:8082/druid/v2/"]}))
 
 
-(deftest test-query
+;(deftest test-zk-query
+;
+;  (connect {:zk {:host "192.168.59.103:2181"
+;                 :discovery-path "/discovery"
+;                 :node-type "broker"}})
 
-  (connect {:zk {:host "192.168.59.103:2181"
-                 :discovery-path "/discovery"
-                 :node-type "broker"}})
+;  (query randomized :groupBy f/valid-groupby-query))
+
+(deftest test-user-query
+
+  (connect {:hosts ["http://192.168.59.103:8082/druid/v2"]})
 
   (query randomized :groupBy f/valid-groupby-query))

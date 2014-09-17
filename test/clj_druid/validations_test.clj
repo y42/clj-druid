@@ -7,9 +7,6 @@
    :dataSource "sample_datasource"
    :granularity :day
    :dimensions ["dim1" "dim2"]
-   :limitSpec {:type :default
-               :limit 5000
-               :columns ["dim1" "metric1"]}
    :filter {
      :type :and
      :fields [
@@ -36,11 +33,11 @@
        :fn "/"
        :fields [
           {:type :fieldAccess
-           :name "sample_name1"
-           :fieldName "sample_fieldName1"}
+           :name "sample_fieldName1"
+           :fieldName "sample_name1"}
           {:type :fieldAccess
-           :name "sample_name2"
-           :fieldName "sample_fieldName2"}]}]
+           :name "sample_fieldName2"
+           :fieldName "sample_name2"}]}]
    :intervals ["2012-01-01T00:00:00.000/2012-01-03T00:00:00.000"]
    :having {:type :greaterThan
             :aggregation "sample_name1"

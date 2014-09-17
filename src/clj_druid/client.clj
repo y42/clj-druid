@@ -18,8 +18,6 @@
   "update node list atom"
   [nodes]
 
-  (println nodes)
-
   (reset! nodes-list nodes))
 
 (defn make-node-path
@@ -69,9 +67,9 @@
 
 (defn from-user
   "Maintain a druid http server list from user"
-  [config]
+  [hosts]
 
-  (reset-node-list (:hosts config)))
+  (reset-node-list hosts))
 
 
 (defn randomized
@@ -79,7 +77,8 @@
   []
 
   (if (empty? @nodes-list)
-    (throw (Exception. "No nodes available")))
+    (throw (Exception.
+            "No druid node available for query")))
 
   (rand-nth @nodes-list))
 
@@ -105,10 +104,10 @@
   "Issue a druid query"
   [balance-strategy query-type druid-query]
 
-  (println @(-<> (into druid-query {:queryType query-type})
+  (-<> (into druid-query {:queryType query-type})
        (v/validate query-type)
        (json/write-str <>)
        {:body <> :as :text}
-       (http/post (balance-strategy) <>))))
+       (http/post (balance-strategy) <>)))
 
 
