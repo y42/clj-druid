@@ -27,9 +27,11 @@
 
 (s/defschema aggregationSchema
   "Druid filter field option schema"
-  {:type (s/enum :count :longSum :doubleSum :min :max)
+  {:type (s/enum :count :longSum :doubleSum :min :max :cardinality)
    :name String
-   (s/optional-key :fieldName) String})
+   (s/optional-key :byRow) Boolean
+   (s/optional-key :fieldName) String
+   (s/optional-key :fieldNames) [String]})
 
 (s/defschema postAggregationSchema
   "Druid filter field option schema"
