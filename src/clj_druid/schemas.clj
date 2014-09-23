@@ -128,6 +128,7 @@
    (s/optional-key :granularity) granularity
    (s/optional-key :dimensions) [String]
    (s/optional-key :pagingSpec) s/Any
+   (s/optional-key :limitSpec) limitSpec
    (s/optional-key :filter) filterSchema})
 
 
