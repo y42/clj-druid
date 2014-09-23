@@ -119,6 +119,17 @@
    (s/optional-key :searchDimensions) [String]
    (s/optional-key :filter) filterSchema})
 
+(s/defschema select
+  "Select query schema"
+  {:queryType (s/enum :select)
+   :dataSource String
+   :intervals intervalSchema
+   (s/optional-key :metrics) [String]
+   (s/optional-key :granularity) granularity
+   (s/optional-key :dimensions) [String]
+   (s/optional-key :pagingSpec) s/Any
+   (s/optional-key :filter) filterSchema})
+
 
 (s/defschema segmentMetadata
   "Segment Metadata query schema"
@@ -168,4 +179,5 @@
               :segmentMetadata segmentMetadata
               :timeBoundary timeBoundary
               :timeseries timeseries
-              :topN topN})
+              :topN topN
+              :select select})

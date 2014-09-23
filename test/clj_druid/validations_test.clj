@@ -90,15 +90,21 @@
    :intervals ["2012-01-01T00:00:00.000/2012-01-03T00:00:00.000"]})
 
 
+(def valid-select-query
+ {:queryType :select
+  :dataSource "wikipedia"
+  :dimensions []
+  :metrics []
+  :granularity :all
+  :intervals ["2013-01-01/2013-01-02"]
+  :pagingSpec {:pagingIdentifiers {} :threshold 5}})
+
+
 (def valid-topN-query
   (into valid-timeseries-query {:queryType :topN
                                 :dimension "dim1"
                                 :threshold 5
                                 :metric "count"}))
-
-
-
-
 
 (deftest test-valid-groupby-query
   (is (= (validate-groupby valid-groupby-query)
@@ -124,5 +130,9 @@
 (deftest test-valid-topN-query
   (is (= (validate-topN valid-topN-query)
              valid-topN-query)))
+
+(deftest test-valid-select-query
+  (is (= (validate valid-select-query :select)
+             valid-select-query)))
 
 
