@@ -4,14 +4,14 @@
             [clj-druid.client :refer :all]))
 
 
-;; (deftest test-connect-zookeeper
-;;   (connect {:zk {:host "192.168.59.103:2181"
-;;                 :discovery-path "/discovery"
-;;                 :node-type "broker"}}))
+(deftest test-connect-zookeeper
+  (connect {:zk {:host "192.168.59.103:2181"
+                :discovery-path "/discovery"
+                :node-type "broker"}}))
 
 
 (deftest test-connect-user
-  (connect {:hosts ["http://m1.vigiglo.be:8085/druid/v2/"]}))
+  (connect {:hosts ["http://localhost:8082/druid/v2/"]}))
 
 
 ;(deftest test-zk-query
