@@ -1,6 +1,18 @@
 (ns clj-druid.schemas
   (:require [schema.core :as s]))
 
+
+
+(s/defschema context
+  "Druid Context option schema"
+  {(s/optional-key :timeout) Long
+   (s/optional-key :priority) Long
+   (s/optional-key :queryId) s/Any
+   (s/optional-key :useCache) Boolean
+   (s/optional-key :populateCache) Boolean
+   (s/optional-key :bySegment) Boolean
+   (s/optional-key :finalize) Boolean})
+
 (s/defschema granularity
   "Druid Granularity option schema"
   (s/enum :all
@@ -76,7 +88,8 @@
   "Druid queryType option query schema"
   {:type (s/enum :insensitive_contains :fragment)
    (s/optional-key :value) (s/either String Long)
-   (s/optional-key :values) [(s/either String Long)]})
+   (s/optional-key :values) [(s/either String Long)]
+   (s/optional-key :context) context})
 
 (s/defschema SearchSort
   "Druid queryType search sort schema"
@@ -105,7 +118,8 @@
    (s/optional-key :postAggregations) [postAggregationSchema]
    (s/optional-key :limitSpec) limitSpec
    (s/optional-key :having) havingSchema
-   (s/optional-key :filter) filterSchema})
+   (s/optional-key :filter) filterSchema
+   (s/optional-key :context) context})
 
 
 (s/defschema search
@@ -117,7 +131,8 @@
    :granularity granularity
    :intervals intervalSchema
    (s/optional-key :searchDimensions) [String]
-   (s/optional-key :filter) filterSchema})
+   (s/optional-key :filter) filterSchema
+   (s/optional-key :context) context})
 
 (s/defschema select
   "Select query schema"
@@ -129,7 +144,8 @@
    (s/optional-key :dimensions) [String]
    (s/optional-key :pagingSpec) s/Any
    (s/optional-key :limitSpec) limitSpec
-   (s/optional-key :filter) filterSchema})
+   (s/optional-key :filter) filterSchema
+   (s/optional-key :context) context})
 
 
 (s/defschema segmentMetadata
@@ -138,7 +154,8 @@
    :dataSource String
    :intervals intervalSchema
    (s/optional-key :toInclude) SegmentMetadataToInclude
-   (s/optional-key :merge) Boolean})
+   (s/optional-key :merge) Boolean
+   (s/optional-key :context) context})
 
 
 
@@ -147,7 +164,8 @@
   {:queryType (s/enum :timeBoundary)
    :dataSource String
    (s/optional-key :toInclude) SegmentMetadataToInclude
-   (s/optional-key :bound) (s/enum :minTime :maxTime)})
+   (s/optional-key :bound) (s/enum :minTime :maxTime)
+   (s/optional-key :context) context})
 
 
 (s/defschema timeseries
@@ -158,7 +176,8 @@
    :aggregations [aggregationSchema]
    :intervals intervalSchema
    (s/optional-key :postAggregations) [postAggregationSchema]
-   (s/optional-key :filter) filterSchema})
+   (s/optional-key :filter) filterSchema
+   (s/optional-key :context) context})
 
 
 (s/defschema topN
@@ -172,7 +191,8 @@
    :aggregations [aggregationSchema]
    :intervals intervalSchema
    (s/optional-key :postAggregations) [postAggregationSchema]
-   (s/optional-key :filter) filterSchema})
+   (s/optional-key :filter) filterSchema
+   (s/optional-key :context) context})
 
 
 (def queries {:groupBy groupBy
