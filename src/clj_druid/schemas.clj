@@ -24,10 +24,13 @@
           :hour
           :day))
 
+(s/defschema orderByColumnSpec
+  "Druid orderByColumnSpec option schema"
+  {:dimension s/Any :direction (s/enum :ASCENDING :DESCENDING)})
+
 (s/defschema limitSpec
   "Druid limitSpec option schema"
-  {:type (s/enum :default) :limit Long :columns [String]})
-
+  {:type (s/enum :default) :limit Long :columns [orderByColumnSpec]})
 
 (s/defschema filterSchema
   "Druid filter field option schema"
