@@ -33,7 +33,7 @@
   "Druid filter field option schema"
   {:type (s/enum :selector :regex :and :or :not)
    (s/optional-key :dimension) (s/either String s/Keyword)
-   (s/optional-key :value) String
+   (s/optional-key :value) s/Any
    (s/optional-key :pattern) String
    (s/optional-key :fields) [(s/recursive #'filterSchema)]
    (s/optional-key :field) (s/recursive #'filterSchema)})
