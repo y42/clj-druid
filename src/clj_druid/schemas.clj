@@ -1,8 +1,6 @@
 (ns clj-druid.schemas
   (:require [schema.core :as s]))
 
-
-
 (s/defschema context
   "Druid Context option schema"
   {(s/optional-key :timeout) Long
