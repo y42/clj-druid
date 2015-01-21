@@ -102,12 +102,14 @@
 
 (defn query
   "Issue a druid query"
-  [balance-strategy query-type druid-query]
+  [balance-strategy query-type druid-query & params]
+
+  (let [conf (apply hash-map params)]
 
   (-<> (into druid-query {:queryType query-type})
        (v/validate query-type)
        (json/write-str <>)
        {:body <> :as :text}
-       (http/post (balance-strategy) <>)))
+       (http/post (balance-strategy) params <>))))
 
 
