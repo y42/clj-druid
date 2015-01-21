@@ -1,5 +1,4 @@
 (ns clj-druid.client
-  (:use plumbing.core)
   (:require [zookeeper :as zk]
             [zookeeper.data :as data]
             [clojure.data.json :as json]
@@ -88,16 +87,12 @@
   (first @nodes-list))
 
 
-(defnk connect
+(defn connect
   "Create a druid client from zk or
   a user defined host"
-  [{zk {}} {hosts []}]
+  [params]
 
-  (or (if (not (empty? zk))
-          (from-zookeeper zk))
-
-      (if (not (empty? hosts))
-          (from-user hosts))))
+  (from-user (:hosts params)))
 
 
 (defn query
