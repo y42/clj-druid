@@ -6,7 +6,10 @@
             [clj-druid.validations :as v]
             [swiss.arrows :refer :all]
             [org.httpkit.client :as http]
-            [clojure.tools.logging :as log]))
+            [clojure.core.async :refer [put! chan <! <!! >! >!! go timeout close!]]))
+
+
+(def default-timeout 5000)
 
 (def nodes-list
   "contains all zk nodes discovered"
@@ -95,15 +98,20 @@
   (from-user (:hosts params)))
 
 
-(defn query
-  "Issue a druid query"
+(defn async-query
+  "Issue a druid query using http-kit client in async mode"
   [balance-strategy query-type druid-query & params]
 
-  (-<> (into druid-query {:queryType query-type})
-       (v/validate query-type)
-       (json/write-str <>)
-       {:body <> :as :text}
-       (merge (apply hash-map params) <>)
-       (http/post (balance-strategy) <>)))
+  (let [params (apply hash-map params)
+        channel (chan 1000)
 
+        options (-<> (into druid-query {:queryType query-type})
+                     (v/validate query-type)
+                     (json/write-str <>)
+                     {:body <> :as :text}
+                     (merge params))]
 
+    (http/post (balance-strategy) options #(go (do (>! channel %)
+                                               (close! channel))))
+
+    channel))
