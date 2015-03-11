@@ -26,4 +26,4 @@
 
   (connect {:hosts ["http://127.0.0.1:8083/druid/v2/"]})
 
-  (async-query randomized :groupBy f/valid-groupby-query :timeout 5000))
+  (query randomized :groupBy f/valid-groupby-query :timeout 5000))

@@ -5,7 +5,7 @@
             [clj-druid.schemas :as sch]
             [clj-druid.validations :as v]
             [swiss.arrows :refer :all]
-            [org.httpkit.client :as http]
+            [clj-http.client :as http]
             [clojure.core.async :refer [put! chan <! <!! >! >!! go timeout close!]]))
 
 
@@ -98,12 +98,11 @@
   (from-user (:hosts params)))
 
 
-(defn async-query
+(defn query
   "Issue a druid query using http-kit client in async mode"
   [balance-strategy query-type druid-query & params]
 
   (let [params (apply hash-map params)
-        channel (chan 1000)
 
         options (-<> (into druid-query {:queryType query-type})
                      (v/validate query-type)
@@ -111,7 +110,4 @@
                      {:body <> :as :text}
                      (merge params))]
 
-    (http/post (balance-strategy) options #(go (do (>! channel %)
-                                               (close! channel))))
-
-    channel))
+    (http/post (balance-strategy) options)))
