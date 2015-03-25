@@ -20,13 +20,14 @@
   "update node list atom"
   [nodes]
 
+  (println nodes)
   (reset! nodes-list nodes))
 
 (defn make-node-path
   "make a zk path string"
   [discovery-path node-type]
 
-  (str discovery-path "/druid:" node-type))
+  (str discovery-path "/" node-type))
 
 
 (defn make-host-http-str
@@ -47,13 +48,12 @@
   (-<>> path
         (zk/children zk-client <>
                      :watch? true
-                     :watcher (fn [e] (zk-watch-node-list zk-client path)))
-
-        (map #(data/to-string (:data (zk/data zk-client (str path "/" %)))))
+                     :watcher #(zk-watch-node-list zk-client path))
+        (map #(data/to-string (:data (zk/data zk-client (str  path "/" %)))))
         (map #(json/read-str %))
         (map #(make-host-http-str %))
+        (vec)
         (reset-node-list)))
-
 
 (defn from-zookeeper
   "Maintain a druid http server list from zookeeper"
@@ -66,11 +66,9 @@
 
     (zk-watch-node-list zk-client node-path)))
 
-
 (defn from-user
   "Maintain a druid http server list from user"
   [hosts]
-
   (reset-node-list hosts))
 
 
@@ -95,7 +93,9 @@
   a user defined host"
   [params]
 
-  (from-user (:hosts params)))
+  (if (:zk params)
+    (from-zookeeper (:zk params))
+    (from-user (:hosts params))))
 
 
 (defn query
