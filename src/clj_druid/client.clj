@@ -48,7 +48,9 @@
   (-<>> path
         (zk/children zk-client <>
                      :watch? true
-                     :watcher #(do (zk-watch-node-list) zk-client path))
+                     :watcher #(do (println %)
+                                   (zk-watch-node-list zk-client path)))
+
         (map #(data/to-string (:data (zk/data zk-client (str  path "/" %)))))
         (map #(json/read-str %))
         (map #(make-host-http-str %))

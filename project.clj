@@ -1,4 +1,4 @@
-(defproject y42/clj-druid "0.1.9"
+(defproject y42/clj-druid "0.2.1"
   :description "Clojure library for Druid.io"
   :url "http://github.com/y42/clj-druid"
   :license {:name "MIT"
