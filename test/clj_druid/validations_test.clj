@@ -106,10 +106,9 @@
                                 :threshold 5
                                 :metric "count"}))
 
-(deftest test-valid-groupby-query
-  (is (= (validate-groupby valid-groupby-query)
-             valid-groupby-query)))
-
+ (deftest test-valid-groupby-query
+   (is (= (validate-groupby valid-groupby-query)
+              valid-groupby-query)))
 
 (deftest test-valid-search-query
   (is (= (validate-search valid-search-query)

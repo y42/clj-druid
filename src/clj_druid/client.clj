@@ -2,7 +2,7 @@
   (:require [zookeeper :as zk]
             [zookeeper.data :as data]
             [clojure.data.json :as json]
-            [clj-druid.schemas :as sch]
+            [clj-druid.schemas.query :as sch]
             [clj-druid.validations :as v]
             [swiss.arrows :refer :all]
             [clj-http.client :as http]

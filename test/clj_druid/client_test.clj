@@ -23,7 +23,5 @@
 ;  (query randomized :groupBy f/valid-groupby-query))
 
 (deftest test-user-query
-
   (connect {:hosts ["http://127.0.0.1:8083/druid/v2/"]})
-
   (query randomized :groupBy f/valid-groupby-query :timeout 5000))
