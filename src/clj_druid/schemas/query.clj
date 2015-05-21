@@ -95,6 +95,15 @@
    (s/optional-key :bound) (s/enum :minTime :maxTime)
    (s/optional-key :context) context})
 
+(s/defschema query
+  (s/either groupBy
+            search
+            segmentMetadata
+            timeBoundary
+            timeseries
+            topN
+            select))
+
 (def queries {:groupBy groupBy
               :search search
               :segmentMetadata segmentMetadata
