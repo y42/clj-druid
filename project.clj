@@ -1,9 +1,8 @@
-(defproject y42/clj-druid "0.2.3"
+(defproject y42/clj-druid "0.2.4"
   :description "Clojure library for Druid.io"
   :url "http://github.com/y42/clj-druid"
-  :license {:name "MIT"
-            :url "http://opensource.org/licenses/MIT"}
-
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [swiss-arrows "1.0.0"]
                  [clj-http "1.0.1"]
