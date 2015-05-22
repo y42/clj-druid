@@ -5,7 +5,7 @@
                  [metosin/compojure-api "0.20.4"]
                  [metosin/ring-http-response "0.6.1"]
                  [metosin/ring-swagger-ui "2.1.5-M2"]
-                 [y42/clj-druid "0.2.3"]]
+                 [y42/clj-druid "0.2.4"]]
   :ring {:handler handler/app}
   :uberjar-name "examples.jar"
   :uberwar-name "examples.war"
