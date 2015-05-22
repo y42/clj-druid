@@ -2,7 +2,7 @@
 
 Clojure library for [Druid](http://druid.io/).
 
-clj-druid eases druid integration providing a client as well as a set of schemas to validate queries.
+clj-druid eases druid integration providing a client as well as a set of [Schema] (https://github.com/Prismatic/schema) to validate queries.
 Current version is up to date with latest query API from official docs.
 
 ## Installing
