@@ -15,7 +15,10 @@
 
 
 (s/defschema groupBy
-  "These types of queries take a groupBy query object and return an array of JSON objects where each object represents a grouping asked for by the query. Note: If you only want to do straight aggregates for some time range, we highly recommend using TimeseriesQueries instead. The performance will be substantially better"
+  "These types of queries take a groupBy query object
+and return an array of JSON objects where each object represents
+a grouping asked for by the query.
+Note: If you only want to do straight aggregates for some time range"
   {:queryType (s/enum :groupBy)
    :dataSource s/Str
    :dimensions [dimensionSpec]
@@ -29,7 +32,8 @@
    (s/optional-key :context) context})
 
 (s/defschema timeseries
-  "These types of queries take a timeseries query object and return an array of JSON objects where each object represents a value asked for by the timeseries query."
+  "These types of queries take a timeseries query object and return an array of JSON objects
+where each object represents a value asked for by the timeseries query."
   {:queryType (s/enum :timeseries)
    :dataSource s/Str
    :granularity granularity
@@ -40,7 +44,11 @@
    (s/optional-key :context) context})
 
 (s/defschema topN
-  "TopN queries return a sorted set of results for the values in a given dimension according to some criteria. Conceptually, they can be thought of as an approximate GroupByQuery over a single dimension with an Ordering spec. TopNs are much faster and resource efficient than GroupBys for this use case. These types of queries take a topN query object and return an array of JSON objects where each object represents a value asked for by the topN query."
+  "TopN queries return a sorted set of results for the values
+in a given dimension according to some criteria.
+Conceptually, they can be thought of as an approximate GroupByQuery
+over a single dimension with an Ordering spec.
+TopNs are much faster and resource efficient than GroupBys for this use case."
   {:queryType (s/enum :topN)
    :dataSource s/Str
    :granularity granularity
@@ -88,7 +96,7 @@
    (s/optional-key :context) context})
 
 (s/defschema timeBoundary
-  "Segment Metadata query schema"
+  "Time boundary queries return the earliest and latest data points of a data set. "
   {:queryType (s/enum :timeBoundary)
    :dataSource s/Str
    (s/optional-key :toInclude) segmentMetadataToInclude
@@ -96,6 +104,7 @@
    (s/optional-key :context) context})
 
 (s/defschema query
+  "druid query router"
   (s/either groupBy
             search
             segmentMetadata

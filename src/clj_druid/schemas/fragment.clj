@@ -46,7 +46,7 @@
 
 (s/defschema intervals
   "Druid interval schema"
-  [String])
+  [s/Str])
 
 (s/defschema queryType
   "Druid queryType option schema"
