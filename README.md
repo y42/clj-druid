@@ -9,7 +9,7 @@ Current version is up to date with latest query API from official docs.
 
 Add the following to your [Leiningen](http://github.com/technomancy/leiningen) `project.clj`:
 
-![latest clj-druid version](https://clojars.org/clj-druid/latest-version.svg)
+![latest clj-druid version](https://clojars.org/y42/clj-druid/latest-version.svg)
 
 ## Usage
 
