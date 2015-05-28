@@ -38,8 +38,7 @@
             javascriptExtractionFunction))
 
 (s/defschema extraction
-  {:type (s/enum :regex)
+  {:type (s/enum :extraction)
    :dimension s/Str
    :outputName s/Str
    :extractionFn extractionFn})
-

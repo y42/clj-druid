@@ -52,7 +52,7 @@ TopNs are much faster and resource efficient than GroupBys for this use case."
   {:queryType (s/enum :topN)
    :dataSource s/Str
    :granularity granularity
-   :dimension s/Str
+   :dimension dimensionSpec
    :metric topNMetricSpec
    :threshold Long
    :aggregations aggregations
