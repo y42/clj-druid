@@ -4,7 +4,7 @@
 (s/defschema fieldAccessPostAggregator
   "This returns the value produced by the specified aggregator."
   {:type (s/enum :fieldAccess)
-   :name s/Str
+   (s/optional-key :name) s/Str
    :fieldName s/Str})
 
 (s/defschema constantPostAggregator
