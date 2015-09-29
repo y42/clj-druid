@@ -29,5 +29,7 @@ Selector filters can be used as the base filters for more complex Boolean expres
   (s/either selectorFilter
             regexFilter
             javascriptFilter
-            {:type (s/enum :or :and :not)
+            {:type (s/enum :not)
+             :field (s/recursive #'Filter)}
+            {:type (s/enum :or :and)
              :fields [(s/recursive #'Filter)]}))
