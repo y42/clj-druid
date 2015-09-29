@@ -1,4 +1,4 @@
-(defproject y42/clj-druid "0.2.6"
+(defproject y42/clj-druid "0.2.7"
   :description "Clojure library for Druid.io"
   :url "http://github.com/y42/clj-druid"
   :license {:name "Eclipse Public License"
