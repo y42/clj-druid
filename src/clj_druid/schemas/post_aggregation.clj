@@ -39,10 +39,70 @@
    (s/optional-key :ordering) (s/enum nil "numericFirst")})
 
 
+                                        ;---- Experimental
+
+(s/defschema equalBucketsPostAggregator
+  "Computes a visual representation of the approximate histogram with a given number of equal-sized bin
+Bucket intervals are based on the range of the underlying data."
+  {:type (s/enum :equalBuckets)
+   :name s/Str
+   :fieldName s/Str
+   :numBuckets Long})
+
+(s/defschema bucketsPostAggregator
+  "Computes a visual representation given an initial breakpoint, offset, and a bucket size.
+Bucket size determines the width of the binning interval.
+Offset determines the value on which those interval bins align."
+  {:type (s/enum :buckets)
+   :name s/Str
+   :fieldName s/Str
+   :bucketSize Long
+   :offset Long})
+
+(s/defschema customBucketsPostAggregator
+  "Computes a visual representation of the approximate histogram with bins laid out according to the given breaks."
+  {:type (s/enum :customBuckets)
+   :name s/Str
+   :fieldName s/Str
+   :breaks [s/Any]})
+
+(s/defschema minPostAggregator
+  "Returns the minimum value of the underlying approximate histogram aggregator"
+  {:type (s/enum :min)
+   :name s/Str
+   :fieldName s/Str})
+
+(s/defschema maxPostAggregator
+  "Returns the minimum value of the underlying approximate histogram aggregator"
+  {:type (s/enum :max)
+   :name s/Str
+   :fieldName s/Str})
+
+(s/defschema quantilePostAggregator
+  "Computes a single quantile based on the underlying approximate histogram aggregator"
+  {:type (s/enum :quantile)
+   :name s/Str
+   :fieldName s/Str
+   :probability s/Any})
+
+(s/defschema quantilesPostAggregator
+  "Computes an array of quantiles based on the underlying approximate histogram aggregator"
+  {:type (s/enum :quantiles)
+   :name s/Str
+   :fieldName s/Str
+   :probabilities [s/Any]})
+
 (s/defschema postAggregation
   (s/either arithmeticPostAggregator
             fieldAccessPostAggregator
             constantPostAggregator
             javascriptPostAggregator
-            hyperUniqueCardinalityPostAggregator))
+            hyperUniqueCardinalityPostAggregator
 
+            equalBucketsPostAggregator
+            bucketsPostAggregator
+            customBucketsPostAggregator
+            minPostAggregator
+            maxPostAggregator
+            quantilePostAggregator
+            quantilesPostAggregator))
