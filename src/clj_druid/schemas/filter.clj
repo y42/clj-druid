@@ -30,12 +30,12 @@ Selector filters can be used as the base filters for more complex Boolean expres
    :dimension s/Str
    :bound (s/either
            {:type (s/enum :rectangular)
-            :minCoords [Float]
-            :maxCoords [Float]}
+            :minCoords [s/Num]
+            :maxCoords [s/Num]}
 
            {:type (s/enum :radius)
-            :coords [Float]
-            :radius Float})})
+            :coords [s/Num]
+            :radius s/Num})})
 
 (s/defschema Filter
   "A filter is a JSON object indicating which rows of data should be included in the computation for a query.
