@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [swiss-arrows "1.0.0"]
                  [clj-http "2.0.0"]
-                 [prismatic/schema "0.4.4"]
+                 [prismatic/schema "1.0.4"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/data.json "0.2.6"]
                  [zookeeper-clj "0.9.1"]])

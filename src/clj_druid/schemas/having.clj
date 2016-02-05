@@ -19,8 +19,9 @@
    :value Long})
 
 (s/defschema having
-  (s/either havingEqualTo
-            havingGreaterThan
-            havingLessThan
-            {:type (s/enum :or :not :and)
-             :havingSpecs (s/recursive #'having)}))
+  (s/conditional
+   #(= :equalTo (:type %)) havingEqualTo
+   #(= :greaterThan (:type %)) havingGreaterThan
+   #(= :lessThan (:type %)) havingLessThan
+   :else {:type (s/enum :or :not :and)
+          :havingSpecs (s/recursive #'having)}))

@@ -28,9 +28,10 @@ minutes and seconds (e.g. P2W, P3M, PT1H30M, PT0.750S) in ISO8601 format."
 
 (s/defschema granularity
   "The granularity field determines how data gets bucketed across the time dimension, or how it gets aggregated by hour, day, minute, etc."
-  (s/either simpleGranularity
-            durationGranularity
-            periodGranularity))
+  (s/conditional
+   #(= :duration (:type %)) durationGranularity
+   #(= :period (:type %)) periodGranularity
+   :else simpleGranularity))
 
 
 

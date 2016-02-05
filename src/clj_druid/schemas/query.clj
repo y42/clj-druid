@@ -84,7 +84,9 @@ TopNs are much faster and resource efficient than GroupBys for this use case."
    (s/optional-key :pagingSpec) pagingSpec
    (s/optional-key :limitSpec) limitSpec
    (s/optional-key :filter) Filter
-   (s/optional-key :context) context})
+   ;;(s/optional-key :context) context
+   }
+  )
 
 (s/defschema segmentMetadata
   "Segment metadata queries return per segment information"
@@ -105,13 +107,14 @@ TopNs are much faster and resource efficient than GroupBys for this use case."
 
 (s/defschema query
   "druid query router"
-  (s/either groupBy
-            search
-            segmentMetadata
-            timeBoundary
-            timeseries
-            topN
-            select))
+  (s/conditional
+   #(= :groupBy (:queryType %)) groupBy
+   #(= :search (:queryType %)) search
+   #(= :segmentMetadata (:queryType %)) segmentMetadata
+   #(= :timeBoundary (:queryType %)) timeBoundary
+   #(= :timeSeries (:queryType %)) timeseries
+   #(= :topN (:queryType %)) topN
+   #(= :select (:queryType %)) select))
 
 (def queries {:groupBy groupBy
               :search search

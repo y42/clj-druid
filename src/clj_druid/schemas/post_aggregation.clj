@@ -30,12 +30,12 @@
   {:type (s/enum :arithmetic)
    :name s/Str
    :fn (s/enum "+" "-" "*" "/" "quotient")
-   :fields [(s/either
-             (s/recursive #'arithmeticPostAggregator)
-             fieldAccessPostAggregator
-             constantPostAggregator
-             javascriptPostAggregator
-             hyperUniqueCardinalityPostAggregator)]
+   :fields [(s/conditional
+             #(= :arithmetic (:type %)) (s/recursive #'arithmeticPostAggregator)
+             #(= :fieldAccess (:type %)) fieldAccessPostAggregator
+             #(= :constant (:type %)) constantPostAggregator
+             #(= :javascript (:type %)) javascriptPostAggregator
+             #(= :hyperUniqueCardinality (:type %)) hyperUniqueCardinalityPostAggregator)]
    (s/optional-key :ordering) (s/enum nil "numericFirst")})
 
 
@@ -93,16 +93,16 @@ Offset determines the value on which those interval bins align."
    :probabilities [s/Any]})
 
 (s/defschema postAggregation
-  (s/either arithmeticPostAggregator
-            fieldAccessPostAggregator
-            constantPostAggregator
-            javascriptPostAggregator
-            hyperUniqueCardinalityPostAggregator
-
-            equalBucketsPostAggregator
-            bucketsPostAggregator
-            customBucketsPostAggregator
-            minPostAggregator
-            maxPostAggregator
-            quantilePostAggregator
-            quantilesPostAggregator))
+  (s/conditional
+   #(= :arithmetic (:type %)) arithmeticPostAggregator
+   #(= :fieldAccess (:type %)) fieldAccessPostAggregator
+   #(= :constant (:type %)) constantPostAggregator
+   #(= :javascript (:type %)) javascriptPostAggregator
+   #(= :hyperUniqueCardinality (:type %)) hyperUniqueCardinalityPostAggregator
+   #(= :equalBuckets (:type %)) equalBucketsPostAggregator
+   #(= :buckets (:type %)) bucketsPostAggregator
+   #(= :customBuckets (:type %)) customBucketsPostAggregator
+   #(= :min (:type %)) minPostAggregator
+   #(= :max (:type %)) maxPostAggregator
+   #(= :quantile (:type %)) quantilePostAggregator
+   #(= :quantiles (:type %)) quantilesPostAggregator))

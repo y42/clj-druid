@@ -91,13 +91,18 @@
 
 
 (def valid-select-query
- {:queryType :select
-  :dataSource "wikipedia"
-  :dimensions []
-  :metrics []
-  :granularity :all
-  :intervals ["2013-01-01/2013-01-02"]
-  :pagingSpec {:pagingIdentifiers {} :threshold 5}})
+  {:queryType :select
+   :dataSource "wikipedia"
+   :dimensions []
+   :metrics []
+   :granularity :all
+   :intervals ["2013-01-01/2013-01-02"]
+   :filter {:type :spatial
+            :dimension "test"
+            :bound {:type :rectangular
+                    :minCoords [1 2]
+                    :maxCoords [3 4]}}
+   :pagingSpec {:pagingIdentifiers {} :threshold 5}})
 
 
 (def valid-topN-query
@@ -106,32 +111,32 @@
                                 :threshold 5
                                 :metric "count"}))
 
- (deftest test-valid-groupby-query
-   (is (= (validate-groupby valid-groupby-query)
-              valid-groupby-query)))
+(deftest test-valid-groupby-query
+  (is (= (validate-groupby valid-groupby-query)
+         valid-groupby-query)))
 
 (deftest test-valid-search-query
   (is (= (validate-search valid-search-query)
-             valid-search-query)))
+         valid-search-query)))
 
 (deftest test-valid-segment-metadata-query
   (is (= (validate-segment-metadata valid-segment-metadata-query)
-             valid-segment-metadata-query)))
+         valid-segment-metadata-query)))
 
 (deftest test-valid-time-boundary-query
   (is (= (validate-time-boundary valid-time-boundary-query)
-             valid-time-boundary-query)))
+         valid-time-boundary-query)))
 
 (deftest test-valid-timeseries-query
   (is (= (validate-timeseries valid-timeseries-query)
-             valid-timeseries-query)))
+         valid-timeseries-query)))
 
 (deftest test-valid-topN-query
   (is (= (validate-topN valid-topN-query)
-             valid-topN-query)))
+         valid-topN-query)))
 
 (deftest test-valid-select-query
   (is (= (validate valid-select-query :select)
-             valid-select-query)))
+         valid-select-query)))
 
 

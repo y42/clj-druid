@@ -30,9 +30,10 @@
 
 (s/defschema dimensionSpec
   "define how dimension values get transformed prior to aggregation"
-  (s/either s/Str
-            defaultDimension
-            extraction))
+  (s/conditional
+   #(= :default (:type %)) defaultDimension
+   #(= :extraction (:type %)) extraction
+   :else s/Str))
 
 (s/defschema orderByColumnSpec
   "Druid orderByColumnSpec option schema"
@@ -67,9 +68,15 @@
 
 (s/defschema topNMetricSpec
   "topN metric option schema"
-  (s/either {:type (s/enum :numeric :lexicographic :alphaNumeric :inverted)
-             (s/optional-key :metric) s/Str
-             (s/optional-key :previousStop) s/Str} s/Str))
+  (s/conditional
+   #(map? %) {:type (s/enum
+                     :numeric
+                     :lexicographic
+                     :alphaNumeric
+                     :inverted)
+              (s/optional-key :metric) s/Str
+              (s/optional-key :previousStop) s/Str}
+   :else s/Str))
 
 (s/defschema segmentMetadataToInclude
   "Druid SegmentMetadata toInclude option schema"

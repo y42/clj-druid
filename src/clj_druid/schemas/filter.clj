@@ -28,23 +28,23 @@ Selector filters can be used as the base filters for more complex Boolean expres
 (s/defschema spatialFilter
   {:type (s/enum :spatial)
    :dimension s/Str
-   :bound (s/either
-           {:type (s/enum :rectangular)
-            :minCoords [s/Num]
-            :maxCoords [s/Num]}
+   :bound (s/conditional
+           #(= :rectangular (:type %)) {:type (s/enum :rectangular)
+                                        :minCoords [s/Num]
+                                        :maxCoords [s/Num]}
 
-           {:type (s/enum :radius)
-            :coords [s/Num]
-            :radius s/Num})})
+           #(= :radius (:type %)) {:type (s/enum :radius)
+                                   :coords [s/Num]
+                                   :radius s/Num})})
 
 (s/defschema Filter
   "A filter is a JSON object indicating which rows of data should be included in the computation for a query.
  It’s essentially the equivalent of the WHERE clause in SQL. Druid supports the following types of filters."
-  (s/either selectorFilter
-            regexFilter
-            javascriptFilter
-            spatialFilter
-            {:type (s/enum :not)
-             :field (s/recursive #'Filter)}
-            {:type (s/enum :or :and)
-             :fields [(s/recursive #'Filter)]}))
+  (s/conditional
+   #(= :selector (:type %)) selectorFilter
+   #(= :regex (:type %)) regexFilter
+   #(= :javascript (:type %)) javascriptFilter
+   #(= :spatial (:type %)) spatialFilter
+   #(or (= :or (:type %))
+        (= :and (:type %))) {:type (s/enum :or :and)
+                             :fields [(s/recursive #'Filter)]}))

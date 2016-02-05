@@ -30,12 +30,13 @@
    :function s/Str})
 
 (s/defschema extractionFn
-  (s/either regularExpressionExtractionFunction
-            partialExtractionFunction
-            searchQueryExtractionFunction
-            timeFormatExtractionFunction
-            timeParsingExtractionFunction
-            javascriptExtractionFunction))
+  (s/conditional
+   #(= :regex (:type %)) regularExpressionExtractionFunction
+   #(= :partial (:type %)) partialExtractionFunction
+   #(= :searchQuery (:type %)) searchQueryExtractionFunction
+   #(= :timeFormat (:type %)) timeFormatExtractionFunction
+   #(= :time (:type %)) timeParsingExtractionFunction
+   #(= :javascript (:type %)) javascriptExtractionFunction))
 
 (s/defschema extraction
   {:type (s/enum :extraction)
