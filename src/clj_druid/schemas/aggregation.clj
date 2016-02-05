@@ -79,7 +79,8 @@ This makes it possible to compute the results of a filtered and an unfiltered ag
    #(= :max (:type %)) maxAggregator
    #(= :javascript (:type %)) javascriptAggregator
    #(= :cardinality (:type %)) cardinalityAggregator
-   #(= :hyperUnique (:type %)) hyperUniqueAggregator))
+   #(= :hyperUnique (:type %)) hyperUniqueAggregator
+   #(= :filtered (:type %)) filteredAggregator))
 
 
 
