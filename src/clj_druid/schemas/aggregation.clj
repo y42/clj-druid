@@ -54,20 +54,15 @@
    :name s/Str
    :fieldName s/Str})
 
+(declare aggregation)
+
 (s/defschema filteredAggregator
   "A filtered aggregator wraps any given aggregator, but only aggregates the values for which the given dimension filter matches.
 This makes it possible to compute the results of a filtered and an unfiltered aggregation simultaneously, without having to issue multiple queries, and use both results as part of post-aggregations."
   {:type (s/enum :filtered)
    :filter Filter
-   :aggregator (s/conditional
-                #(= :count (:type %)) countAggregator
-                #(= :longSum (:type %)) longSumAggregator
-                #(= :doubleSum (:type %)) doubleSumAggregator
-                #(= :min (:type %)) minAggregator
-                #(= :max (:type %)) maxAggregator
-                #(= :javascript (:type %)) javascriptAggregator
-                #(= :cardinality (:type %)) cardinalityAggregator
-                #(= :hyperUnique (:type %)) hyperUniqueAggregator)})
+   (s/optional-key :name) s/Str
+   :aggregator (s/recursive #'aggregation)})
 
 (s/defschema aggregation
   "Aggregations are specifications of processing over metrics available in Druid"
