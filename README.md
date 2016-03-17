@@ -1,5 +1,7 @@
 # clj-druid
 
+[![Build Status](https://travis-ci.org/y42/clj-druid.svg?branch=master)](https://travis-ci.org/y42/clj-druid)
+
 Clojure library for [Druid](http://druid.io/).
 
 clj-druid eases druid integration providing a client as well as a set of [Schema] (https://github.com/Prismatic/schema) to validate queries.
