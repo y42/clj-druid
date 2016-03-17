@@ -104,12 +104,33 @@
                     :maxCoords [3 4]}}
    :pagingSpec {:pagingIdentifiers {} :threshold 5}})
 
-
 (def valid-topN-query
   (into valid-timeseries-query {:queryType :topN
                                 :dimension "dim1"
                                 :threshold 5
                                 :metric "count"}))
+
+(def valid-filtered-aggregation
+  {:queryType :timeseries
+   :dataSource "dev.supercell"
+   :granularity :all
+   :intervals ["2016-03-17T07:30:10.476/2016-03-17T08:30:10.476"]
+   :filter {:type :selector
+            :dimension "project_id"
+            :value "vgteam-TV_Shows"}
+   :aggregations [{:type :filtered
+                   :filter {:type :selector
+                            :dimension "img-adult"
+                            :value "false"}
+                   :aggregator {:type :filtered
+                                :aggregator {:type :longSum
+                                             :name "qualityRows"
+                                             :fieldName "count" }
+                                :filter {:type :not
+                                         :field {:type :selector
+                                                 :dimension "quality"
+                                                 :value nil}}
+                                :name "img-adult->false->qualityRows"}}]})
 
 (deftest test-valid-groupby-query
   (is (= (validate-groupby valid-groupby-query)
@@ -130,6 +151,10 @@
 (deftest test-valid-timeseries-query
   (is (= (validate-timeseries valid-timeseries-query)
          valid-timeseries-query)))
+
+(deftest test-valid-filtered-aggregation
+  (is (= (validate-timeseries valid-filtered-aggregation)
+         valid-filtered-aggregation)))
 
 (deftest test-valid-topN-query
   (is (= (validate-topN valid-topN-query)
