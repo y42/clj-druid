@@ -45,6 +45,8 @@ Selector filters can be used as the base filters for more complex Boolean expres
    #(= :regex (:type %)) regexFilter
    #(= :javascript (:type %)) javascriptFilter
    #(= :spatial (:type %)) spatialFilter
+   #(= :not  (:type %))  {:type  (s/enum :not)
+                          :field  (s/recursive #'Filter)}
    #(or (= :or (:type %))
         (= :and (:type %))) {:type (s/enum :or :and)
                              :fields [(s/recursive #'Filter)]}))
