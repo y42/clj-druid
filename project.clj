@@ -1,4 +1,4 @@
-(defproject y42/clj-druid "0.2.12"
+(defproject y42/clj-druid "0.2.13-SNAPSHOT"
   :description "Clojure library for Druid.io"
   :url "http://github.com/y42/clj-druid"
   :license {:name "Eclipse Public License"
@@ -15,4 +15,4 @@
                  [prismatic/schema "1.0.4"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.clojure/data.json "0.2.6"]
-                 [zookeeper-clj "0.9.1"]])
+                 [curator "0.0.6"]])

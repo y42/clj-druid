@@ -7,10 +7,11 @@
 
 
 (def default-druid-host "http://localhost:8083/druid/v2")
-(client/connect {:hosts [default-druid-host]})
+(def druid-client (client/connect {:hosts [default-druid-host]}))
 
 (defn do-query [q]
   (ok (client/query
+       druid-client
        client/randomized
        (:queryType q) q)))
 
