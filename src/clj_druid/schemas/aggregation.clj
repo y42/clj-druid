@@ -20,15 +20,27 @@
    :name s/Str
    :fieldName s/Str})
 
-(s/defschema minAggregator
-  "min computes the minimum metric value"
-  {:type (s/enum :min)
+(s/defschema doubleMinAggregator
+  "computes the minimum of all metric values and Double.POSITIVE_INFINITY"
+  {:type (s/enum :doubleMin)
    :name s/Str
    :fieldName s/Str})
 
-(s/defschema maxAggregator
-  "max computes the maximum metric value"
-  {:type (s/enum :max)
+(s/defschema longMinAggregator
+  "computes the minimum of all metric values and Long.MAX_VALUE"
+  {:type (s/enum :longMin)
+   :name s/Str
+   :fieldName s/Str})
+
+(s/defschema doubleMaxAggregator
+  "computes the maximum of all metric values and Double.NEGATIVE_INFINITY"
+  {:type (s/enum :doubleMax)
+   :name s/Str
+   :fieldName s/Str})
+
+(s/defschema longMaxAggregator
+  "computes the maximum of all metric values and Long.MIN_VALUE"
+  {:type (s/enum :longMax)
    :name s/Str
    :fieldName s/Str})
 
@@ -70,8 +82,10 @@ This makes it possible to compute the results of a filtered and an unfiltered ag
    #(= :count (:type %)) countAggregator
    #(= :longSum (:type %)) longSumAggregator
    #(= :doubleSum (:type %)) doubleSumAggregator
-   #(= :min (:type %)) minAggregator
-   #(= :max (:type %)) maxAggregator
+   #(= :longMin (:type %)) longMinAggregator
+   #(= :doubleMin (:type %)) doubleMinAggregator
+   #(= :longMax (:type %)) longMaxAggregator
+   #(= :doubleMax (:type %)) doubleMaxAggregator
    #(= :javascript (:type %)) javascriptAggregator
    #(= :cardinality (:type %)) cardinalityAggregator
    #(= :hyperUnique (:type %)) hyperUniqueAggregator
