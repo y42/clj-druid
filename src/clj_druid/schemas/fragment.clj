@@ -20,6 +20,7 @@
    (s/optional-key :populateCache) Boolean
    (s/optional-key :bySegment) Boolean
    (s/optional-key :finalize) Boolean
+   (s/optional-key :skipEmptyBuckets) Boolean
    (s/optional-key :chunkPeriod) s/Str})
 
 (s/defschema defaultDimension
