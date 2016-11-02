@@ -67,7 +67,7 @@ Issue druid queries supplying
    :intervals ["2012-01-01T00:00:00.000/2012-01-03T00:00:00.000"]})
    (let [client (connect {:zk {:host "127.0.0.1:2181"
                           :discovery-path "/druid/discovery"
-                          :node-type "broker"}})]
+                          :node-type "druid:broker"}})]
      (query client random (:queryType q) q)
      (close client))
 ```
