@@ -22,7 +22,7 @@ this method supports auto detection and update of available brokers for easy HA/
 
 ```clj
 (use 'clj-druid.client)
-(connect {:zk {:host "127.0.0.1:2181"
+(connect {:zk {:host "127.0.0.1:2181,my-other-zk-host:2181" ; can contain multiple hosts separated by commas
                :discovery-path "/druid/discovery"
                :node-type "broker"}})
 ```
