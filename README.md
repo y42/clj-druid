@@ -24,7 +24,7 @@ this method supports auto detection and update of available brokers for easy HA/
 (use 'clj-druid.client)
 (connect {:zk {:host "127.0.0.1:2181,my-other-zk-host:2181" ; can contain multiple hosts separated by commas
                :discovery-path "/druid/discovery"
-               :node-type "broker"}})
+               :node-type "druid:broker"}})
 ```
 
 you can also connect by supplying a vector of hosts, useful for dev, local testing
@@ -67,7 +67,7 @@ Issue druid queries supplying
    :intervals ["2012-01-01T00:00:00.000/2012-01-03T00:00:00.000"]})
    (let [client (connect {:zk {:host "127.0.0.1:2181"
                           :discovery-path "/druid/discovery"
-                          :node-type "broker"}})]
+                          :node-type "druid:broker"}})]
      (query client random (:queryType q) q)
      (close client))
 ```
