@@ -10,7 +10,11 @@
           :fifteen_minute
           :thirty_minute
           :hour
-          :day))
+          :day
+          :week
+          :month
+          :quarter
+          :year))
 
 (s/defschema durationGranularity
   "Duration granularities are specified as an exact duration in milliseconds and timestamps are returned as UTC. Duration granularity values are in millis."
