@@ -51,7 +51,7 @@
    :fieldNames [s/Str]
    :fnAggregate s/Str
    :fnCombine s/Str
-   :fnReset [s/Str]})
+   :fnReset s/Str})
 
 (s/defschema cardinalityAggregator
   "Computes the cardinality of a set of Druid dimensions, using HyperLogLog to estimate the cardinality."
