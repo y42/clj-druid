@@ -112,7 +112,7 @@ TopNs are much faster and resource efficient than GroupBys for this use case."
    #(= :search (:queryType %)) search
    #(= :segmentMetadata (:queryType %)) segmentMetadata
    #(= :timeBoundary (:queryType %)) timeBoundary
-   #(= :timeSeries (:queryType %)) timeseries
+   #(= :timeseries (:queryType %)) timeseries
    #(= :topN (:queryType %)) topN
    #(= :select (:queryType %)) select))
 

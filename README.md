@@ -71,7 +71,21 @@ Issue druid queries supplying
      (query client random (:queryType q) q)
      (close client))
 ```
-   
+To run a query _without_ runtime validation of the query against a schema (using
+the `q` from above:
+```clj
+   (let [client (connect {:zk {:host "127.0.0.1:2181"
+                          :discovery-path "/druid/discovery"
+                          :node-type "druid:broker"}})]
+     (execute client random q)
+     (close client))
+;; if you want to validate
+   (let [client (connect {:zk {:host "127.0.0.1:2181"
+                          :discovery-path "/druid/discovery"
+                          :node-type "druid:broker"}})]
+     (s/with-fn-validation (execute client random q)) ;; s is plumatic/schema
+     (close client))
+```	 
 ### Example
 
 An example using compojure-api to spawn a full druid API is located in the examples folder

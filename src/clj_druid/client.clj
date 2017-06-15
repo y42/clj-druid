@@ -4,8 +4,8 @@
             [clojure.data.json :as json]
             [clj-druid.schemas.query :as sch]
             [clj-druid.validations :as v]
-            [swiss.arrows :refer :all]
-            [clj-http.client :as http]))
+            [clj-http.client :as http]
+            [schema.core :as s]))
 
 (defprotocol ^:private Client
   (close [this]
@@ -76,17 +76,23 @@
     (curator-client (:zk params))
     (static-client (:hosts params))))
 
-(defn query
+(s/defn execute
   "Issue a druid query"
+  ([client balance-strategy druid-query :- sch/query]
+   (execute client balance-strategy druid-query {}))
+  ([client balance-strategy druid-query http-params]
+   (let [nodes (nodes client)]
+     (when (empty? nodes)
+       (throw (Exception.
+               "No druid node available for query")))
+     (http/post (balance-strategy nodes)
+                (merge {:body (json/write-str druid-query)
+                        :as :text
+                        :content-type :json}
+                       http-params)))))
+(defn query
+  "Issue a druid query with validation"
   [client balance-strategy query-type druid-query & params]
-  (let [params (apply hash-map params)
-        options (-<> (into druid-query {:queryType query-type})
-                     (v/validate query-type)
-                     (json/write-str <>)
-                     {:body <> :as :text}
-                     (merge params))
-        nodes (nodes client)]
-    (when (empty? nodes)
-      (throw (Exception.
-              "No druid node available for query")))
-    (http/post (balance-strategy nodes) options)))
+  (let [http-params (apply hash-map params)
+        query (assoc druid-query :queryType query-type)]
+    (s/with-fn-validation (execute client balance-strategy query http-params))))
